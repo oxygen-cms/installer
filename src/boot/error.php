@@ -54,6 +54,6 @@ function handleFatalError() {
 function displayError($message, $file, $line, $type) {
     header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
     $message = htmlspecialchars_decode(strip_tags($message));
-    echo $message . ' in file <code>' . $file . '</code> on line <code>' . $line . '</code> (Type: ' . $type . ')';
+    echo 'Error "' . $message . '" in file <code>' . $file . '</code> on line <code>' . $line . '</code> (Type: ' . $type . ')';
     exit;
 }

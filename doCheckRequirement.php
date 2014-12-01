@@ -1,6 +1,6 @@
 <?php
 
-require 'src/start.php';
+require 'src/boot/start.php';
 
 $name = $_GET['name'];
 

@@ -9,7 +9,7 @@ var classes = {
     testing: "Requirement--testing",
     messageSuccess: "RequirementsCheckMessage--success",
     messageError: "RequirementsCheckMessage--error",
-    messageShow: "RequirementsCheckMessage--show"
+    messageShow: "Message--show"
 };
 
 var success = true;

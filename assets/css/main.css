@@ -44,7 +44,7 @@ a:hover, a:active {
     margin: 0;
     float: left;
 
-    font-size: 2em;
+    font-size: 3em;
 }
 
 .Header--main h1 {
@@ -57,7 +57,7 @@ a:hover, a:active {
     color: #fff;
     font-size: 2em;
     padding: 0.5em;
-    margin: 1.5em 1em 0 0;
+    margin: 2.5em 1em 0 0;
     width: 2.5em;
     text-align: center;
     border: 2px solid #fff;
@@ -151,13 +151,13 @@ a:hover, a:active {
     border-left: 1em solid #ff6f55;
 }
 
-.RequirementsCheckMessage {
+.Message {
     display: none;
     -webkit-animation: none;
     animation: none;
 }
 
-.RequirementsCheckMessage--show {
+.Message--show {
     display: block;
     -webkit-animation: slideUp 1.5s;
     animation: slideUp 1.5s;

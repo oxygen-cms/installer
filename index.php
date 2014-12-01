@@ -1,5 +1,5 @@
 <?php
-    require 'src/start.php';
+    require 'src/boot/start.php';
 
     include 'src/layout/head.php';
 ?>
@@ -16,12 +16,12 @@
         <li class="Requirement Requirement--failed" data-requirement="enabled-js">JavaScript is Disabled. <br><br>For instructions on how to enable it, visit <a href="http://www.activatejavascript.org/">activatejavascript.org</a>.</li>
     </ul>
 
-    <div class="Success RequirementsCheckMessage RequirementsCheckMessage--success">
+    <div class="Success Message RequirementsCheckMessage--success">
         <h2>You're ready to go!</h2>
         <p>Congratulations, your system is compatible with Oxygen. You can now proceed with installation.</p>
         <a href="install.php" class="Button">Install</a>
     </div>
-    <div class="Error RequirementsCheckMessage RequirementsCheckMessage--error RequirementsCheckMessage--show">
+    <div class="Error Message RequirementsCheckMessage--error Message--show">
         <h2>Whoops, there's a problem!</h2>
         <p>Your system doesn't meet the requirements to run Oxygen.</p>
     </div>

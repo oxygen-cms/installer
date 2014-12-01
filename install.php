@@ -1,5 +1,5 @@
 <?php
-    require 'src/start.php';
+    require 'src/boot/start.php';
 
     include 'src/layout/head.php';
 ?>
@@ -26,6 +26,12 @@
     <h2>Installation Log</h2>
 
     <textarea id="install-log" rows="15" readonly>Contacting server...</textarea>
+
+    <div class="Success Message InstallMessage--success">
+        <h2>Installation Complete!</h2>
+        <p>Oxygen is installed. You now need to configure it.</p>
+        <a href="configure.php" class="Button">Configure</a>
+    </div>
 
 </div>
 

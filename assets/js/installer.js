@@ -1,13 +1,27 @@
+var classes = {
+    messageSuccess: "InstallMessage--success",
+    messageShow: "Message--show"
+};
+
 $.ajax({
     dataType: 'json',
     type: 'POST',
     url: 'doInstall.php',
     success: function(data) {
         console.log(data);
+
+        if(data.success === true) {
+            var message = $("." + classes.messageSuccess);
+            message.addClass(classes.messageShow);
+        }
     },
     error: function(response, textStatus, errorThrown) {
         console.log(response, textStatus, errorThrown);
-        handleError(response.responseText);
+
+        // if it's a timeout, then ignore it, because the script should keep running
+        if(response.status !== 504) {
+            handleError(response.responseText);
+        }
     }
 });
 
@@ -24,6 +38,13 @@ var poll = function() {
         dataType: "json",
         url: 'doGetInstallProgress.php',
         success: function(response) {
+            console.log(response);
+
+            if(response.notFound) {
+                console.log('Progress Not Found');
+                console.log(response);
+            }
+
             if(response.log) {
                 $("#install-log").html(response.log);
             }
@@ -31,27 +52,24 @@ var poll = function() {
             if(response.progress === false) {
                 progressBar.reset();
                 $("#install-log").html("");
-            } else {
-                if(response.progress) {
-                    if(response.progress.section.count !== currentSection) {
-                        progressBar.setSectionCount(response.progress.section.count);
-                        progressBar.setSectionMessage(response.progress.section.message);
-                        progressBar.reset(function() {
-                            progressBar.transitionTo(response.progress.item.count, response.progress.item.total);
-                        });
-                        currentSection = response.progress.section.count;
-                    } else {
+            } else if(response.progress) {
+                if(response.progress.section.count !== currentSection) {
+                    progressBar.setSectionCount(response.progress.section.count);
+                    progressBar.setSectionMessage(response.progress.section.message);
+                    progressBar.reset(function() {
                         progressBar.transitionTo(response.progress.item.count, response.progress.item.total);
-                    }
-
-                    progressBar.setMessage(response.progress.item.message);
-
+                    });
+                    currentSection = response.progress.section.count;
+                } else {
+                    progressBar.transitionTo(response.progress.item.count, response.progress.item.total);
                 }
+
+                progressBar.setMessage(response.progress.item.message);
             }
 
             if(response.notification) {
                 if(!response.notification.unique || currentNotification !== response.notification.unique) {
-                    addMessage(response.notification.message, response.notification.status);
+                    addMessage(response.notification.content, response.notification.status);
                     currentNotification = response.notification.unique;
                 }
             }

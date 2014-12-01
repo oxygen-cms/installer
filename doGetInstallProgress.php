@@ -1,21 +1,20 @@
 <?php
 
-require 'src/start.php';
+use Illuminate\Filesystem\Filesystem;
 
-$logPath = STORAGE_PATH . '/log.txt';
-$progressPath = STORAGE_PATH . '/progress.json';
+require 'src/boot/start.php';
 
-if(!file_exists($logPath) || !file_exists($progressPath)) {
-    echo json_encode(['notification' => ['message' => 'Installation Not Started Yet', 'status' => 'failed']]);
+if(!file_exists(LOG_PATH) || !file_exists(PROGRESS_PATH)) {
+    echo json_encode(['notFound' => true]);
 } else {
 
-    $log = file_get_contents($logPath);
-    $response = json_decode(file_get_contents($progressPath), true);
+    $log = file_get_contents(LOG_PATH);
+    $response = json_decode(file_get_contents(PROGRESS_PATH), true);
     $response['log'] = $log;
 
     if(isset($response['stopPolling']) && $response['stopPolling'] === true) {
-        unlink(STORAGE_PATH . '/log.txt');
-        unlink(STORAGE_PATH . '/progress.json');
+        $files = new Filesystem();
+        $files->cleanDirectory(STORAGE_PATH);
     }
 
     echo json_encode($response);

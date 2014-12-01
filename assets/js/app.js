@@ -6,6 +6,7 @@ function addMessage(message, status) {
     }
     content += message + '</div>';
     $(".Body").append(content);
+    console.trace();
 }
 
 function handleError(message) {

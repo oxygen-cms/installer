@@ -124,7 +124,7 @@ class ApplicationDownloader {
             if($name != '.' && $name != '..') {
                 $path = $newPath . $name;
                 if(file_exists($path)) {
-                    if(is_dir($path)) {
+                    if($this->files->isDirectory($path)) {
                         $this->files->deleteDirectory($path);
                     } else {
                         $this->files->delete($path);

@@ -15,6 +15,7 @@ class Installer {
 
     public function __construct() {
         $this->files = new Filesystem();
+        $this->files->cleanDirectory(STORAGE_PATH);
         $this->output = new StreamOutput(fopen(LOG_PATH, 'a', false), OutputInterface::VERBOSITY_DEBUG);
         $this->progress = new FileProgress(PROGRESS_PATH, $this->output);
     }
@@ -24,8 +25,6 @@ class Installer {
      */
 
     public function run() {
-        $this->files->cleanDirectory(STORAGE_PATH);
-
         $downloader = new ApplicationDownloader($this->progress, $this->files);
         $downloader->run();
 
@@ -34,20 +33,14 @@ class Installer {
         $this->progress->section('Beginning Installation');
         $this->progress->indeterminate();
 
-        $input = new ArrayInput(['command' => 'update', 'working-dir' => INSTALL_PATH]);
+        $input = new ArrayInput(['command' => 'update', '--working-dir' => INSTALL_PATH]);
         $application = new Application();
         $application->setAutoExit(false);
         $application->setCatchExceptions(false);
 
-        try {
-            $application->run($input, $this->output, $this->progress);
-            $this->progress->notification('Installation Complete');
-            $this->progress->section('Complete');
-            $this->progress->stopPolling();
-        } catch(Exception $e) {
-            $this->progress->notification($e->getMessage(), 'failed');
-            $this->progress->stopPolling();
-        }
+        $application->run($input, $this->output, $this->progress);
+        $this->progress->section('Complete');
+        $this->progress->stopPolling();
     }
 
 
