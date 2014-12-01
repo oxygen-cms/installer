@@ -1,0 +1,33 @@
+{
+    "name": "oxygen/installer",
+    "description": "The Oxygen Installer",
+    "license": "MIT",
+    "keywords": [
+        "cms",
+        "framework",
+        "oxygen"
+    ],
+    "authors": [
+        {
+            "name": "Chris Chamberlain",
+            "email": "c.chamberlain@iinet.net.au"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "oxygen/composer": "dev-master",
+        "illuminate/filesystem": "~4.2"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/oxygen-cms/composer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Oxygen\\Installer\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}

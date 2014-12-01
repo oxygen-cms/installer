@@ -1,0 +1,319 @@
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+html {
+    font-family: 'Roboto', sans-serif;
+    font-size: 87.5%;
+}
+
+body {
+    margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Roboto Slab', sans-serif;
+    font-weight: 200;
+}
+
+a {
+    color: #63a8cc;
+    text-decoration: none;
+}
+
+a:hover, a:active {
+    text-decoration: underline;
+}
+
+/* ==============================
+               LAYOUT
+   ============================== */
+
+.Header {
+    background-color: #000;
+    background-image: url('../img/autumn.jpg');
+    background-size: cover;
+    background-position: center center;
+}
+
+.Header h1 {
+    color: #fff;
+    padding: 2em;
+    margin: 0;
+    float: left;
+
+    font-size: 2em;
+}
+
+.Header--main h1 {
+    font-size: 4em;
+    text-align: center;
+}
+
+.Header-step {
+    float: right;
+    color: #fff;
+    font-size: 2em;
+    padding: 0.5em;
+    margin: 1.5em 1em 0 0;
+    width: 2.5em;
+    text-align: center;
+    border: 2px solid #fff;
+    border-radius: 50%;
+}
+
+.Header-step--active {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.Header--main .Header-step {
+    margin: 4.25em 1em 0 0;
+}
+
+.Body {
+    background-color: #eee;
+    padding: 2em;
+    min-height: 100vh;
+}
+
+/* ==============================
+            REQUIREMENTS
+   ============================== */
+
+.Requirement-list {
+    padding-left: 0;
+    list-style-type: none;
+}
+
+.Requirement {
+    padding: 1em;
+    background-color: #fff;
+    -webkit-animation: slideUp 1.5s;
+    animation: slideUp 1.5s;
+    margin: 1em 0;
+}
+
+.Requirement--failed:before {
+    content: "\e600";
+    color: #ff6f55;
+}
+
+.Requirement--passed:before {
+    content: "\e601";
+    color: #2ecc40;
+}
+
+.Requirement--testing:before {
+    content: "\e602";
+    color: #83c8fc;
+    -webkit-animation: spin 1s infinite;
+    animation: spin 1s infinite;
+}
+
+.Requirement--passed:before,
+.Requirement--failed:before,
+.Requirement--testing:before {
+    font-family: 'icomoon';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    margin-right: 0.5em;
+    font-size: 1.5em;
+    vertical-align: middle;
+}
+
+/* ==============================
+              MESSAGES
+   ============================== */
+
+.Success,
+.Error {
+    background-color: #fff;
+    -webkit-animation: slideUp 1.5s;
+    animation: slideUp 1.5s;
+    margin: 1em 0;
+    padding: 1em;
+}
+
+.Success {
+    border-left: 1em solid #2ecc40;
+}
+
+.Error {
+    border-left: 1em solid #ff6f55;
+}
+
+.RequirementsCheckMessage {
+    display: none;
+    -webkit-animation: none;
+    animation: none;
+}
+
+.RequirementsCheckMessage--show {
+    display: block;
+    -webkit-animation: slideUp 1.5s;
+    animation: slideUp 1.5s;
+}
+
+/* ==============================
+              BUTTONS
+   ============================== */
+
+.Button {
+    display: inline-block;
+    background-color: #83c8fc;
+    border-bottom: 0.25em solid #51b4fb;
+    color: #000;
+    border-radius: 0.5em;
+    padding: 0.75em 1em;
+    margin: 1em 0;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.Button:hover, .Button:active {
+    text-decoration: none;
+}
+
+.Button:hover {
+    background-color: #79cbff;
+    border-bottom-color: #1f9ffa;
+}
+
+.Button:active {
+    background-color: #70cdff;
+    border-bottom-color: #0794f9;
+}
+
+/* ==============================
+           PROGRESS BAR
+   ============================== */
+
+.ProgressBar {
+    width: 100%;
+    margin: 1em 0;
+    border-radius: 0.5em;
+    background-color: #ccc;
+    overflow: hidden;
+}
+
+.ProgressBar-fill {
+    display: block;
+    height: 2em;
+    width: 0;
+    position: relative;
+    background-color: #83c8fc;
+    transition: width ease 0.5s, opacity ease 0.5s;
+}
+
+.ProgressBar-fill--jump {
+    transition: none;
+}
+
+.ProgressBar-fill:after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background-image:
+    linear-gradient(
+            -45deg,
+            rgba(255, 255, 255, .2) 25%,
+            transparent 25%,
+            transparent 50%,
+            rgba(255, 255, 255, .2) 50%,
+            rgba(255, 255, 255, .2) 75%,
+            transparent 75%,
+            transparent
+    );
+    background-size: 50px 50px;
+    -webkit-animation: ProgressBar-move 2s linear infinite;
+    animation: ProgressBar-move 2s linear infinite;
+}
+
+@-webkit-keyframes ProgressBar-move {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 50px 50px;
+    }
+}
+
+.ProgressBar-text {
+    line-height: 2em;
+    margin: 0 1em;
+}
+
+.ProgressBar-message-item {
+    float: left;
+}
+
+.ProgressBar-message-section {
+    float: right;
+    font-weight: bold;
+}
+
+textarea {
+    font-family: 'Roboto', sans-serif;
+    padding: 1em;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    margin: 1em 0;
+    display: block;
+    width: 100%;
+}
+
+/* ==============================
+            MISCELLANEOUS
+   ============================== */
+
+.cf:before,
+.cf:after {
+    content: " ";
+    display: table;
+}
+
+.cf:after {
+    clear: both;
+}
+
+.cf {
+    *zoom: 1;
+}
+
+@-webkit-keyframes slideUp {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@-webkit-keyframes spin {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+    from {transform:rotate(0deg);}
+    to {transform:rotate(360deg);}
+}
+
+@font-face {
+    font-family: 'icomoon';
+    src:url('../fonts/icomoon.eot?-v61uls');
+    src:url('../fonts/icomoon.eot?#iefix-v61uls') format('embedded-opentype'),
+    url('../fonts/icomoon.woff?-v61uls') format('woff'),
+    url('../fonts/icomoon.ttf?-v61uls') format('truetype'),
+    url('../fonts/icomoon.svg?-v61uls#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
