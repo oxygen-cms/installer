@@ -121,17 +121,16 @@ class ApplicationDownloader {
         $files = scandir($oldPath);
         $newPath = INSTALL_PATH;
         foreach($files as $name) {
-            $path = $newPath . $name;
-            if(file_exists($path)) {
-                if(is_dir($path)) {
-                    $this->files->deleteDirectory($path);
-                } else {
-                    $this->files->delete($path);
+            if($name != '.' && $name != '..') {
+                $path = $newPath . $name;
+                if(file_exists($path)) {
+                    if(is_dir($path)) {
+                        $this->files->deleteDirectory($path);
+                    } else {
+                        $this->files->delete($path);
+                    }
                 }
 
-            }
-
-            if($name != '.' && $name != '..') {
                 $this->files->move($oldPath . $name, $newPath . $name);
             }
         }
