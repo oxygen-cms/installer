@@ -27,12 +27,6 @@
 
     <textarea id="install-log" rows="15" readonly>Contacting server...</textarea>
 
-    <div class="Success Message InstallMessage--success">
-        <h2>Installation Complete!</h2>
-        <p>Oxygen is installed. You now need to configure it.</p>
-        <a href="configure.php" class="Button">Configure</a>
-    </div>
-
 </div>
 
 <?php include 'src/layout/scripts.php'; ?>

@@ -40,6 +40,9 @@ class Installer {
 
         $application->run($input, $this->output, $this->progress);
         $this->progress->section('Complete');
+        $this->progress->notification('<h2>Installation Complete!</h2>
+        <p>Oxygen is installed! But you now need to configure it...</p>
+        <a href="configure.php" class="Button">Configure</a>');
         $this->progress->stopPolling();
     }
 

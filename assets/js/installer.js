@@ -1,19 +1,8 @@
-var classes = {
-    messageSuccess: "InstallMessage--success",
-    messageShow: "Message--show"
-};
-
-$.ajax({
-    dataType: 'json',
+$.ajax({dataType: 'json',
     type: 'POST',
     url: 'doInstall.php',
     success: function(data) {
         console.log(data);
-
-        if(data.success === true) {
-            var message = $("." + classes.messageSuccess);
-            message.addClass(classes.messageShow);
-        }
     },
     error: function(response, textStatus, errorThrown) {
         console.log(response, textStatus, errorThrown);
