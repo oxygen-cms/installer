@@ -65,16 +65,15 @@ class ApplicationDownloader {
 
         $this->zipPath = STORAGE_PATH . '/application.zip';
 
-        set_time_limit(0);
-        $fp = fopen($this->zipPath, 'w+'); //This is the file where we save the    information
-        $ch = curl_init('https://api.github.com/repos/laravel/laravel/zipball');//Here is the file we are downloading, replace spaces with %20
+        $fp = fopen($this->zipPath, 'w+');
+        $ch = curl_init(DOWNLOAD_URL);
         curl_setopt($ch, CURLOPT_TIMEOUT, 0);
-        curl_setopt($ch, CURLOPT_FILE, $fp); // write curl response to file
+        curl_setopt($ch, CURLOPT_FILE, $fp);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, [$this, 'onDownloadProgress']);
-        curl_setopt($ch, CURLOPT_NOPROGRESS, 0); // needed to make progress function work
+        curl_setopt($ch, CURLOPT_NOPROGRESS, 0);
         curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
-        curl_exec($ch); // get curl response
+        curl_exec($ch);
         curl_close($ch);
         fclose($fp);
     }

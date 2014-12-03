@@ -14,6 +14,9 @@ use ZipArchive;
 class Installer {
 
     public function __construct() {
+        ini_set('max_execution_time', 0);
+        set_time_limit(0);
+
         $this->files = new Filesystem();
         $this->files->cleanDirectory(STORAGE_PATH);
         $this->output = new StreamOutput(fopen(LOG_PATH, 'a', false), OutputInterface::VERBOSITY_DEBUG);
@@ -28,6 +31,16 @@ class Installer {
         $downloader = new ApplicationDownloader($this->progress, $this->files);
         $downloader->run();
 
+        $this->runComposer();
+    }
+
+    /**
+     * Runs composer.
+     *
+     * @return void
+     */
+
+    protected function runComposer() {
         putenv('COMPOSER=' . realpath(INSTALL_PATH . 'composer.json'));
 
         $this->progress->section('Beginning Installation');
@@ -38,14 +51,20 @@ class Installer {
         $application->setAutoExit(false);
         $application->setCatchExceptions(false);
 
-        $application->run($input, $this->output, $this->progress);
-        $this->progress->section('Complete');
-        $this->progress->notification('<h2>Installation Complete!</h2>
-        <p>Oxygen is installed! But you now need to configure it...</p>
-        <a href="configure.php" class="Button">Configure</a>');
-        $this->progress->stopPolling();
+        $result = $application->run($input, $this->output, $this->progress);
+        if($result !== 0) {
+            $this->progress->section('Failed');
+            $this->progress->notification('<h2 class="heading-gamma">Installation Failed</h2>
+            <p>The installation failed. Check the log above to see what went wrong.</p>', 'failed');
+            $this->progress->stopPolling();
+        } else {
+            $this->progress->section('Complete');
+            $this->progress->notification('<h2 class="heading-gamma">Installation Complete!</h2>
+            <p>Oxygen is installed! But you now need to configure it...</p>
+            <a href="configure.php" class="Button Button-color--blue">Configure</a>');
+            $this->progress->stopPolling();
+        }
     }
-
 
 
 }
