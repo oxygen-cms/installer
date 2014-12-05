@@ -12,7 +12,7 @@
     <p class="Banner-step Banner-step--active">2</p>
     <p class="Banner-step ">1</p>
 </header>
-<div class="Body">
+<div class="Page">
 
     <div class="Block Block--padded">
 

@@ -28,7 +28,7 @@ class Installer {
      */
 
     public function run() {
-        $downloader = new ApplicationDownloader($this->progress, $this->files);
+        $downloader = new ApplicationDownloader($this->progress, $this->output, $this->files);
         $downloader->run();
 
         $this->runComposer();

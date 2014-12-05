@@ -6,6 +6,7 @@ use FilesystemIterator;
 use Illuminate\Filesystem\Filesystem;
 use Composer\Progress\ProgressInterface;
 use Exception;
+use Symfony\Component\Console\Output\OutputInterface;
 use ZipArchive;
 
 class ApplicationDownloader {
@@ -17,8 +18,9 @@ class ApplicationDownloader {
      * @param \Illuminate\Filesystem\Filesystem    $filesystem
      */
 
-    public function __construct(ProgressInterface $progress, Filesystem $filesystem) {
+    public function __construct(ProgressInterface $progress, OutputInterface $output, Filesystem $filesystem) {
         $this->progress = $progress;
+        $this->output = $output;
         $this->files = $filesystem;
     }
 
@@ -116,21 +118,25 @@ class ApplicationDownloader {
             throw new Exception('Extracted archive not found');
         }
 
-        $oldPath = STORAGE_PATH . '/' . $this->oldPath;
+        $this->moveDirectory(realpath(STORAGE_PATH . '/' . $this->oldPath), realpath(INSTALL_PATH));
+    }
+
+    /**
+     * Moves a directory recursively.
+     */
+
+    protected function moveDirectory($oldPath, $newPath) {
         $files = scandir($oldPath);
-        $newPath = INSTALL_PATH;
         foreach($files as $name) {
             if($name != '.' && $name != '..') {
-                $path = $newPath . $name;
-                if(file_exists($path)) {
-                    if($this->files->isDirectory($path)) {
-                        $this->files->deleteDirectory($path);
-                    } else {
-                        $this->files->delete($path);
-                    }
-                }
+                $oldFile = $oldPath . '/' . $name;
+                $newFile = $newPath . '/' . $name;
 
-                $this->files->move($oldPath . $name, $newPath . $name);
+                if($this->files->exists($newFile) && $this->files->isDirectory($newFile)) {
+                    $this->moveDirectory($oldFile, $newFile);
+                } else {
+                    $this->files->move($oldFile, $newFile);
+                }
             }
         }
 
