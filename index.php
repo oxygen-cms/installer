@@ -1,7 +1,7 @@
 <?php
     require 'src/boot/start.php';
 
-    $title = 'Check Requirements';
+    $title = 'Checking System Requirements';
 
     include 'src/layout/head.php';
 ?>

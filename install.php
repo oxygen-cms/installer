@@ -1,7 +1,7 @@
 <?php
     require 'src/boot/start.php';
 
-    $title = 'Install';
+    $title = 'Installing';
 
     include 'src/layout/head.php';
 ?>
@@ -39,7 +39,6 @@
 
 <?php include 'src/layout/scripts.php'; ?>
 
-<script src="assets/js/progress.js"></script>
 <script src="assets/js/installer.js"></script>
 
 <?php include 'src/layout/foot.php'; ?>

@@ -4,7 +4,6 @@ namespace Oxygen\Installer;
 
 use Exception;
 use Illuminate\Foundation\Application;
-use Illuminate\Support\MessageBag;
 
 class DatabaseConfigurer {
 
@@ -26,26 +25,18 @@ class DatabaseConfigurer {
      */
 
     public function configure(array $data) {
-        $passed = $this->validate($data);
+        $this->validate($data);
 
-        if($passed !== true) {
-            var_dump($passed);
-            die();
-        }
+        $this->testConnections($data);
 
-        $this->app['config']->set('database.connections.' . $data['driver'], $this->getDatabaseConfig($data));
-
-        die('has set');
-
-        $em = $this->app['Doctrine\ORM\EntityManager'];
-        $sm = $em->getConnection()->getSchemaManager();
-        var_dump($sm->listTables());
+        $this->buildSchema();
     }
 
     /**
      * Validates the input data.
      *
      * @param $data
+     * @throws InvalidDataException
      * @return boolean|MessageBag
      */
 
@@ -60,10 +51,8 @@ class DatabaseConfigurer {
         });
 
         if($validator->fails()) {
-            return $validator->errors();
+            throw new InvalidDataException($validator->errors());
         }
-
-        return true;
     }
 
     /**
@@ -108,6 +97,38 @@ class DatabaseConfigurer {
         }
 
         return $connection;
+    }
+
+    /**
+     * Tests and configures database connections.
+     *
+     * @param array $data
+     * @throws \Oxygen\Installer\InvalidDatabaseException
+     */
+
+    protected function testConnections(array $data) {
+        $this->app['config']->set('database.connections.' . $data['driver'], $this->getDatabaseConfig($data));
+
+        $em = $this->app['Doctrine\ORM\EntityManager'];
+        $sm = $em->getConnection()->getSchemaManager();
+        $tables = $sm->listTables();
+        if(!empty($tables)) {
+            throw new InvalidDatabaseException('Database "' . $data['database'] . '" is not empty');
+        }
+
+        $this->app['config']->write('database.connections.' . $data['driver'], $this->getDatabaseConfig($data));
+    }
+
+    /**
+     * Builds the database schema.
+     *
+     * @return void
+     */
+
+    protected function buildSchema() {
+        $schema = $this->app['Doctrine\ORM\Tools\SchemaTool'];
+        $metadata = $this->app['Doctrine\ORM\Mapping\ClassMetadataFactory'];
+        $schema->updateSchema($metadata->getAllMetadata());
     }
 
 }

@@ -10,3 +10,9 @@ $('[name="database[driver]"]').on("change", function() {
         }
     });
 });
+
+Oxygen.Ajax.handleSuccessCallback = function(response) {
+    if(response.switchToTab) {
+        Oxygen.TabSwitcher.list[0].setTo(response.switchToTab);
+    }
+};

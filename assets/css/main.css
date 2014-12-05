@@ -70,6 +70,7 @@
 .Requirement {
     padding: 1em;
     background-color: #fff;
+    border: 1px solid #eee;
     -webkit-animation: slideUp 1.5s;
     animation: slideUp 1.5s;
     margin: 1em 0;
