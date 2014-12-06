@@ -119,14 +119,28 @@
     animation: slideUp 1.5s;
     margin: 1em 0;
     padding: 1em;
+    padding-left: 2em;
+    position: relative;
+    border: 1px solid #eee;
+    border-left: 0;
 }
 
-.Success {
-    border-left: 1em solid #2ecc40;
+.Success::before,
+.Error::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1em;
+    height: 100%;
 }
 
-.Error {
-    border-left: 1em solid #ff6f55;
+.Success::before {
+    background-color: #2ecc40;
+}
+
+.Error::before {
+    background-color: #ff6f55;
 }
 
 .Message {

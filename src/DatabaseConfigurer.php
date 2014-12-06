@@ -79,7 +79,7 @@ class DatabaseConfigurer {
         if($input['driver'] === 'sqlite') {
             $connection = [
                 'driver'   => $input['driver'],
-			    'database' => INSTALL_PATH . $input['database'],
+			    'database' => INSTALL_PATH . '/' . $input['database'],
 			    'prefix'   => ''
             ];
         }

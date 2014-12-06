@@ -7,7 +7,7 @@
 ?>
 
 <header class="Banner cf">
-    <h1 class="heading-alpha">Install</h1>
+    <h1 class="heading-alpha">Installing</h1>
     <p class="Banner-step">3</p>
     <p class="Banner-step Banner-step--active">2</p>
     <p class="Banner-step ">1</p>

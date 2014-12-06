@@ -48,7 +48,7 @@ class AccountConfigurer {
 
             $user = new User();
             $user->setUsername($data['username'])
-                 ->setPassword($this->app['hash']->make($data['password']))
+                 ->setPassword($data['password'])
                  ->setFullName($data['fullName'])
                  ->setEmail($data['email'])
                  ->setGroup($group)

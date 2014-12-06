@@ -32,16 +32,19 @@ class Installer {
         $downloader->run();
 
         $this->runComposer();
+
+        $this->publishAssets();
     }
 
     /**
      * Runs composer.
      *
+     * @throws \Oxygen\Installer\InstallationException if the installation fails
      * @return void
      */
 
     protected function runComposer() {
-        putenv('COMPOSER=' . realpath(INSTALL_PATH . 'composer.json'));
+        putenv('COMPOSER=' . realpath(INSTALL_PATH . '/composer.json'));
 
         $this->progress->section('Beginning Installation');
         $this->progress->indeterminate();
@@ -53,18 +56,48 @@ class Installer {
 
         $result = $application->run($input, $this->output, $this->progress);
         if($result !== 0) {
-            $this->progress->section('Failed');
-            $this->progress->notification('<h2 class="heading-gamma">Installation Failed</h2>
-            <p>The installation failed. Check the log above to see what went wrong.</p>', 'failed');
-            $this->progress->stopPolling();
-        } else {
-            $this->progress->section('Complete');
-            $this->progress->notification('<h2 class="heading-gamma">Installation Complete!</h2>
-            <p>Oxygen is installed! But you now need to configure it...</p>
-            <a href="configure.php" class="Button Button-color--blue">Configure</a>');
-            $this->progress->stopPolling();
+            throw new InstallationException($result);
         }
     }
 
+    /**
+     * Publishes assets.
+     *
+     * @return void
+     */
+
+    protected function publishAssets() {
+        $this->progress->section('Publishing Assets');
+        $this->progress->indeterminate();
+
+        $this->progress->write('Booting Framework');
+        $booter = new FrameworkBooter();
+        $app = $booter->boot();
+
+        $app->register('Illuminate\Foundation\Providers\PublisherServiceProvider');
+        $publisher = $app->make('asset.publisher');
+
+        $this->progress->write('Listing Packages');
+        $vendorPath = base_path() . '/vendor';
+        $vendorLength = strlen($vendorPath);
+        foreach(glob($vendorPath . '/*/*', GLOB_ONLYDIR) as $directory) {
+            // Check that that package has assets
+            if(!is_dir($directory . '/public')) {
+                continue;
+            }
+
+            $packages[] = substr($directory, $vendorLength + 1);
+        }
+
+        $this->progress->total(count($packages));
+
+        foreach($packages as $package) {
+            $this->progress->write('Publishing assets for ' . $package);
+
+            $publisher->publishPackage($package, $vendorPath);
+
+            $this->output->writeln('Published assets for ' . $package);
+        }
+    }
 
 }

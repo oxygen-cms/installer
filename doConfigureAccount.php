@@ -20,4 +20,4 @@ try {
     exit;
 }
 
-echo json_encode(['redirect' => '/oxygen']);
+echo json_encode(['redirect' => 'done.php']);
