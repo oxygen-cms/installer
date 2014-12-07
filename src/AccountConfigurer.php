@@ -29,6 +29,8 @@ class AccountConfigurer {
     public function configure(array $data) {
         $this->validate($data);
 
+        $this->app['config']->write('auth.driver', 'doctrine');
+
         $preferences = file_get_contents(__DIR__ . '/content/preferences-sample.json');
         $permissions = file_get_contents(__DIR__ . '/content/permissions-sample.json');
 
