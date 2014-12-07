@@ -28,12 +28,23 @@ class Installer {
      */
 
     public function run() {
-        $downloader = new ApplicationDownloader($this->progress, $this->output, $this->files);
-        $downloader->run();
+        $stage = isset($_POST['stage']) ? $_POST['stage'] : null;
+        if($stage === null && isset($_GET['stage'])) {
+            $stage = $_GET['stage'];
+        }
 
-        $this->runComposer();
+        if($stage === 'download' || $stage === null) {
+            $downloader = new ApplicationDownloader($this->progress, $this->output, $this->files);
+            $downloader->run();
+        }
 
-        $this->publishAssets();
+        if($stage === 'composer' || $stage === null) {
+            $this->runComposer();
+        }
+
+        if($stage === 'publishAssets' || $stage === null) {
+            $this->publishAssets();
+        }
     }
 
     /**
