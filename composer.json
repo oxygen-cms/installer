@@ -15,7 +15,7 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "oxygen/composer": "@dev",
+        "composer/composer": "@dev",
         "illuminate/filesystem": "~4.2"
     },
     "repositories": [
