@@ -25,6 +25,11 @@
                 </button>
                 <button
                     type="button"
+                    class="Button Button-color--white" role="tab" data-switch-to-tab="queue">
+                    Queue
+                </button>
+                <button
+                    type="button"
                     class="Button Button-color--white" role="tab" data-switch-to-tab="accounts">
                     Accounts
                 </button>
@@ -72,6 +77,93 @@
                 <div class="Row">
                     <label for="database.database" class="Form-label flex-item">Database Name</label>
                     <input type="text" name="database[database]" id="database.database" class="Form-content flex-item">
+                </div>
+
+                <div class="Form-footer Row--visual">
+                    <button type="submit" class="Button Button-color--green">Configure</button>
+                </div>
+
+            </form>
+
+            <form action="doConfigureQueue.php" method="POST" class="Form--sendAjax" data-tab="queue">
+
+                <div class="Row--visual">
+                    <h2 class="heading-gamma">Queue</h2>
+                </div>
+
+                <div class="Row">
+                    <label for="queue.driver" class="Form-label flex-item">Driver</label>
+                    <select name="queue[driver]" id="queue.driver" class="Form-content flex-item">
+                        <option value="sync" selected>Sync</option>
+                        <option value="beanstalkd">Beanstalkd</option>
+                        <option value="sqs">Amazon SQS</option>
+                        <option value="iron">IronMQ</option>
+                        <option value="redis">Redis</option>
+                    </select>
+                </div>
+
+                <div class="Row--visual" data-hide-if="sync,sqs,beanstalkd,redis" style="display: none;">
+                    <a href="https://hud.iron.io/users/new" target="_blank" class="Button Button-color--blue">Create an IronMQ Account</a>
+                </div>
+
+                <div class="Row" data-hide-if="sync,sqs,redis" style="display: none;">
+                    <label for="queue.host" class="Form-label flex-item">Host</label>
+                    <input type="text" name="queue[host]" id="queue.host" class="Form-content flex-item">
+                </div>
+
+                <div class="Row" data-hide-if="sync,beanstalkd,iron,redis" style="display: none;">
+                    <label for="queue.key" class="Form-label flex-item">Key</label>
+                    <input type="text" name="queue[key]" id="queue.key" class="Form-content flex-item">
+                </div>
+
+                <div class="Row" data-hide-if="sync,beanstalkd,iron,redis" style="display: none;">
+                    <label for="queue.secret" class="Form-label flex-item">Secret</label>
+                    <input type="text" name="queue[secret]" id="queue.secret" class="Form-content flex-item">
+                </div>
+
+                <div class="Row" data-hide-if="sync,beanstalkd,sqs,redis" style="display: none;">
+                    <label for="queue.project" class="Form-label flex-item">Project ID</label>
+                    <input type="text" name="queue[project]" id="queue.project" class="Form-content flex-item">
+                </div>
+
+                <div class="Row" data-hide-if="sync,beanstalkd,sqs,redis" style="display: none;">
+                    <label for="queue.token" class="Form-label flex-item">Token</label>
+                    <input type="text" name="queue[token]" id="queue.token" class="Form-content flex-item">
+                </div>
+
+                <div class="Row" data-hide-if="sync" style="display: none;">
+                    <label for="queue.queue" class="Form-label flex-item">Name</label>
+                    <input type="text" name="queue[queue]" id="queue.queue" class="Form-content flex-item">
+                </div>
+
+                <div class="Row" data-hide-if="sync,beanstalkd,iron,redis" style="display: none;">
+                    <label for="queue.region" class="Form-label flex-item">Region</label>
+                    <input type="text" name="queue[region]" id="queue.region" class="Form-content flex-item" value="us-east-1">
+                </div>
+
+                <div class="Row" data-hide-if="sync,sqs,iron,redis" style="display: none;">
+                    <label for="queue.ttr" class="Form-label flex-item">Seconds To Run</label>
+                    <input type="number" name="queue[ttr]" id="queue.ttr" class="Form-content flex-item" value="60">
+                </div>
+
+                <div class="Row" data-hide-if="sync,sqs,beanstalkd,redis" style="display: none;">
+                    <label class="Form-label flex-item">Encrypt</label>
+                    <input class="Form-content flex-item" name="queue[encrypt]" type="hidden" value="false">
+                    <input class="Form-content flex-item Form-toggle" id="queue.encrypt" checked="checked" name="queue[encrypt]" type="checkbox" value="true">
+                    <label for="queue.encrypt" class="Form-toggle-label">
+                        <span class="on">Yes</span>
+                        <span class="off">No</span>
+                    </label>
+                </div>
+
+                <div class="Row" data-hide-if="sync,sqs,beanstalkd,redis" style="display: none;">
+                    <label class="Form-label flex-item">Create Queue Automatically</label>
+                    <input class="Form-content flex-item" name="queue[make]" type="hidden" value="false">
+                    <input class="Form-content flex-item Form-toggle" id="queue.make" checked="checked" name="queue[make]" type="checkbox" value="true">
+                    <label for="queue.make" class="Form-toggle-label">
+                        <span class="on">Yes</span>
+                        <span class="off">No</span>
+                    </label>
                 </div>
 
                 <div class="Form-footer Row--visual">
