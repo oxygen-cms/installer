@@ -60,7 +60,11 @@ class Installer {
         $this->progress->section('Beginning Installation');
         $this->progress->indeterminate();
 
-        $input = new ArrayInput(['command' => 'update', '--working-dir' => INSTALL_PATH]);
+        $input = new ArrayInput([
+            'command' => 'update',
+            '--working-dir' => INSTALL_PATH,
+            '--no-interaction' => true
+        ]);
         $application = new Application();
         $application->setAutoExit(false);
         $application->setCatchExceptions(false);
